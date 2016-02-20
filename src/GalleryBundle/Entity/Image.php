@@ -5,32 +5,36 @@ namespace GalleryBundle\Entity;
 /**
  * @author Antony Repin <egeshi@gmail.com>
  */
-class Image{
+class Image
+{
+
     protected $url;
     protected $title;
     protected $slug;
     protected $description;
-    protected $album;
+    public $album;
+
     /**
      * @var integer
      */
     private $id;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
+
     /**
      * Set url
      *
      * @param string $url
+     *
      * @return Image
      */
     public function setUrl($url)
@@ -40,20 +44,23 @@ class Image{
         return $this;
     }
 
+
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
         return $this->url;
     }
 
+
     /**
      * Set title
      *
      * @param string $title
+     *
      * @return Image
      */
     public function setTitle($title)
@@ -63,20 +70,23 @@ class Image{
         return $this;
     }
 
+
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
 
+
     /**
      * Set slug
      *
      * @param string $slug
+     *
      * @return Image
      */
     public function setSlug($slug)
@@ -86,20 +96,23 @@ class Image{
         return $this;
     }
 
+
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
         return $this->slug;
     }
 
+
     /**
      * Set description
      *
      * @param string $description
+     *
      * @return Image
      */
     public function setDescription($description)
@@ -109,20 +122,23 @@ class Image{
         return $this;
     }
 
+
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
     }
 
+
     /**
      * Set album
      *
      * @param \GalleryBundle\Entity\Album $album
+     *
      * @return Image
      */
     public function setAlbum(\GalleryBundle\Entity\Album $album = null)
@@ -132,10 +148,11 @@ class Image{
         return $this;
     }
 
+
     /**
      * Get album
      *
-     * @return \GalleryBundle\Entity\Album 
+     * @return \GalleryBundle\Entity\Album
      */
     public function getAlbum()
     {

@@ -1,3 +1,11 @@
-gallery_homepage:
+albums_index:
     path:     /
     defaults: { _controller: GalleryBundle:Default:index }
+    
+album_page:
+    path: /album/{id}/page/{page}
+    defaults: { _controller: GalleryBundle:Default:albumPage }
+
+_json_albums_index:
+    path:     /json/albums
+    defaults: { _controller: GalleryBundle:Json:allAlbums }

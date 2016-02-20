@@ -3,20 +3,26 @@
 namespace GalleryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
-
+/**
+ * Default controller for gallery
+ */
 class DefaultController extends Controller
 {
 
-    /**
-     * Pages index
-     * @return type
-     */
     public function indexAction()
     {
-        return $this->render('GalleryBundle:Default:index.html.twig');
+        
+        $conn = $this->get('database_connection');
+        $albums = $conn->fetchAll("SELECT * FROM albums");
+        
+        return $this->render('GalleryBundle:Default:gallery.html.twig', ['albums'=>$albums]);
     }
 
 
+    public function albumAction(Request $request)
+    {
+        die(__FILE__.":".__LINE__);
+    }
 }
-
