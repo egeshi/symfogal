@@ -1,0 +1,24 @@
+{
+  "name": "symfony_gallery",
+  "version": "0.0.0",
+  "homepage": "https://github.com/egeshi/symfogal",
+  "authors": [
+    "Antony Repin <egeshi@gmail.com>"
+  ],
+  "description": "Symfony2 gallery with marionette",
+  "keywords": [
+    "marionette",
+    "symfony2"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "marionette": "~2.4.4",
+    "requirejs": "~2.1.22"
+  }
+}
