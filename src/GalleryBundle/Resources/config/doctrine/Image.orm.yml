@@ -1,0 +1,29 @@
+GalleryBundle\Entity\Image:
+    type: entity
+    table: images
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        url:
+            type: string
+            length: 255
+        title:
+            type: string
+            length: 100
+        slug:
+            type: string
+            length: 100
+        description:
+            type: string
+            length: 255
+            
+    manyToOne:
+        album:
+            targetEntity: Album
+            inversedBy: images
+            joinColumn:
+                name: album_id
+                referencedColumnName: id
+        

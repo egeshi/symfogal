@@ -1,0 +1,22 @@
+GalleryBundle\Entity\Album:
+    type: entity
+    table: albums
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 100
+        slug:
+            type: string
+            length: 100
+        max:
+            type: integer
+            length: 3
+            
+    oneToMany:
+        images:
+            targetEntity: Image
+            mappedBy: album
