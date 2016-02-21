@@ -32,7 +32,10 @@ define(function ( require ) {
     regions: {
       menu: "#albums",
       heading: "#panelHeading",
-      content: "#images"
+      content: new Marionette.Region({
+        el: "#images",
+        template: false
+      })
     },
     onBeforeShow: function () {
       this.showChildView('header', new Gallery.PanelTitle());
@@ -115,6 +118,9 @@ define(function ( require ) {
     var collectionView = Marionette.CollectionView.extend({
       childView: listItem,
       el: containerId,
+      attachBuffer: function ( collectionView, buffer ) {
+        collectionView.$el.html(buffer);
+      },
     });
 
     return new collectionView({
@@ -146,7 +152,7 @@ define(function ( require ) {
   var albumUri = function ( album, page ) {
     if (!!album === true && !!page === false) {
       return '/json/album/' + album;
-    } else if(!!album === true && !!page === true) {
+    } else if (!!album === true && !!page === true) {
       return '/json/album/' + album + '/page/' + page;
     }
     throw "Routing error";
@@ -162,18 +168,26 @@ define(function ( require ) {
 
       var url = albumUri(album_id, page);
       console.log(url);
-      
+
       // Load images data
       var imagesDataLoader = new dataController({ url: url });
       imagesDataLoader.load();
-      
+
       // Generate and render images
       imagesDataLoader.on('announce', function ( response ) {
         console.log(response);
-        
+
         var itemsCollection = getModelCollection();
         var listItems = new itemsCollection(response[0].images);
         Gallery.ImagesList = getCollectionView("#image-template", '#images', listItems);
+
+//        var region = new Marionette.Region({
+//          el: "#images",
+//          template: false
+//        });
+        //region.show(new Gallery.Layout(), { });
+        //console.log(Gallery.Layout.hasView);
+        //if (!Gallery.Layout.hasView)
         Gallery.ImagesList.render();
       });
     },

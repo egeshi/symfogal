@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * Data controller
  */
@@ -68,7 +67,7 @@ class JsonController extends Controller
         $query = $this->getDoctrine()->getRepository('GalleryBundle:Image')
                 ->createQueryBuilder('i')
                 ->select('i')
-                ->where('i.album = ' . (int) $albumId);
+                ->where('i.album = '.(int) $albumId);
 
         $data = [
             'album' => null,
@@ -102,7 +101,7 @@ class JsonController extends Controller
                 'currentPage' => $currentPage,
                 'itemsPerPage' => $perPage,
                 'totalItems' => $pagination->getTotalItemCount(),
-                'pageOf' => $currentPage . ' of ' . $total / $perPage,
+                'pageOf' => $currentPage.' of '.$total / $perPage,
                 'images' => $images,
             ];
         } else {
@@ -116,7 +115,4 @@ class JsonController extends Controller
 
         return $response;
     }
-
-
 }
-
