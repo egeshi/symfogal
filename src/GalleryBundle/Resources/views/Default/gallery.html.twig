@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <div class="container">
+    <div class="container" id="container">
 
         <header class="row">
             <h3 id="pageHeading" class="col-sm-12">Demo gallery.</h3>
@@ -14,7 +14,7 @@
                 <div class="panel-heading" id="panelHeading">
                     <h3 class="panel-title"></h3>
                 </div>
-                <div class="panel-body" id="imagesContainer"></div>
+                <div class="panel-body" id="images"></div>
             </div>
         </div>
 
@@ -25,12 +25,12 @@
 
 
 {% block marionette_templates %}
-    <script type="text/template" id="item-template">
+    <script type="text/template" id="button-template">
         <a type="button" class="btn btn-default" href="#/album/<%= id %>"><%= title %></a>
     </script>
     <script type="text/template" id="image-template">
         <div class="image">
-            <img src="">
+            <img src="<%= url %>">
         </div>
     </script>
 {% endblock %}

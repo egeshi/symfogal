@@ -10,16 +10,16 @@ _json_albums_index:
         
 
 _json_album:
-    path:     /json/album/{album_id}
+    path:     /json/album/{albumId}
     defaults: { _controller: GalleryBundle:Json:albumPage }
     methods: [GET]
     requirements:
-            album_id: \d+
+            albumId: \d+
         
 _json_album_page:
-    path:     /json/album/{album_id}/page/{page_id}
+    path:     /json/album/{albumId}/page/{pageId}
     defaults: { _controller: GalleryBundle:Json:albumPage }
     methods: [GET]
     requirements:
-        album_id: \d+
-        page_id: \d+
+        albumId: \d+
+        pageId: \d+
