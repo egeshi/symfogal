@@ -21,3 +21,4 @@ app/logs/
 app/SymfonyRequirements.php
 nbproject/
 master.zip
+web/bower_components/
