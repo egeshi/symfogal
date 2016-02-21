@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+
 /**
  * Data controller
  */
@@ -67,20 +68,23 @@ class JsonController extends Controller
         $query = $this->getDoctrine()->getRepository('GalleryBundle:Image')
                 ->createQueryBuilder('i')
                 ->select('i')
-                ->where('i.album = '.(int) $albumId);
+                ->where('i.album = ' . (int) $albumId);
 
         $data = [
             'album' => null,
-            'currentPage' => 1,
-            'itemsPerPage' => 5,
-            'itemsPerPage' => 5,
-            'pageOf' => '1 of 1',
+            'currentPage' => null,
+            'imagesTotal' => null,
+            'pagesTotal' => null,
             'images' => null,
+            'itemsPerPage' => 5,
         ];
-
-        if (isset($pageId) && is_numeric($pageId)) {
+        
+        if (!is_null($pageId) && is_numeric($pageId)) {
+            $pageId = (int)$pageId;
             $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate($query->getQuery(), $request->query->getInt('page', 1), 5);
+            $pagination = $paginator->paginate($query->getQuery(),
+                    $pageId,
+                    $data['itemsPerPage']);
             $images = $pagination->getItems();
 
             foreach ($images as $k => $item) {
@@ -96,17 +100,21 @@ class JsonController extends Controller
             $perPage = $pagination->getItemNumberPerPage();
             $currentPage = $pagination->getCurrentPageNumber();
 
-            $data = [
-                'album' => $albumId,
-                'currentPage' => $currentPage,
-                'itemsPerPage' => $perPage,
-                'totalItems' => $pagination->getTotalItemCount(),
-                'pageOf' => $currentPage.' of '.$total / $perPage,
-                'images' => $images,
-            ];
+            $data['album'] = $albumId;
+            $data['currentPage'] = $currentPage;
+            $data['imagesTotal'] = $total;
+            $data['pagesTotal'] = $total / $perPage;
+            $data['images'] = $images;
+            
+            ///var_dump($data);
+            //die(__FILE__ . ":" . __LINE__);
+            
         } else {
 
             $data['album'] = $albumId;
+            $data['currentPage'] = 1;
+            $data['imagesTotal'] = count($query->getQuery()->getResult());
+            $data['pagesTotal'] = $data['imagesTotal']/$data['itemsPerPage'];
             $data['images'] = $query->setMaxResults(5)->getQuery()->getArrayResult();
         }
 
@@ -115,4 +123,7 @@ class JsonController extends Controller
 
         return $response;
     }
+
+
 }
+

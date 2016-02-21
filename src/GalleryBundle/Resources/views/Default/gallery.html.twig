@@ -13,8 +13,13 @@
             <div class="panel panel-default col-sm-10">
                 <div class="panel-heading" id="panelHeading">
                     <h3 class="panel-title"></h3>
+                    <div class="info">
+                        <p class="label label-info">Gallery is loading different images every time from http://lorempixel.com/ following URL used in DB.<br>&nbsp;Like http://lorempixel.com/640/480/nightlife/?17269</p>
+                        <p class="label label-info">See console ouptut to ensure that same URLs are fetched from DB.</p>
+                    </div>
                 </div>
                 <div class="panel-body" id="images"></div>
+                <div class="panel-footer" id="pagination"></div>
             </div>
         </div>
 
@@ -29,9 +34,30 @@
         <a type="button" class="btn btn-default" href="#/album/<%= id %>"><%= title %></a>
     </script>
     <script type="text/template" id="image-template">
-        <div class="thumbnail col-sm-2">
-            <img src="<%= url %>" class="img-responsive img-thumbnail">
+        <div class="thumbnail col-sm-2" style="width: 20%">
+            <img src="<%= url %>" alt="<%= title %>" class="img-responsive img-thumbnail">
         </div>
+    </script>
+    <script type="text/template" id="pagination-template">
+        <nav>
+            <ul class="pagination">
+              <% if (nav.prev.disabled === false){ %>
+              <li>
+                <a href="#<%= nav.prev.url %>" aria-label="Previous" id="paginationPrev">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <% } %>
+              <li><a href="#"><%= currentPage %></a></li>
+              <% if (nav.next.disabled === false){ %>
+              <li>
+                <a href="#<%= nav.next.url %>" aria-label="Next" id="paginationNext">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+               </li>
+          <% } %>
+            </ul>
+          </nav>
     </script>
 {% endblock %}
 

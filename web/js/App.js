@@ -20,7 +20,7 @@ define(function ( require ) {
    * Panel title view for any needs
    */
   Gallery.PanelTitle = Marionette.ItemView.extend({
-    template: '<h3>Select Album on the left</h3>',
+    template: '<h3>Select Album at the left</h3>',
     el: ".panel-title"
   });
 
@@ -32,10 +32,8 @@ define(function ( require ) {
     regions: {
       menu: "#albums",
       heading: "#panelHeading",
-      content: new Marionette.Region({
-        el: "#images",
-        template: false
-      })
+      content: "#images",
+      pagination: '#pagination'
     },
     onBeforeShow: function () {
       this.showChildView('header', new Gallery.PanelTitle());
@@ -149,11 +147,17 @@ define(function ( require ) {
    * @param {int} page
    * @returns {String}
    */
-  var albumUri = function ( album, page ) {
+  var albumUri = function ( album, page, isJson ) {
+
+    var uri = '';
+    if (isJson === true) {
+      uri = '/json';
+    }
+
     if (!!album === true && !!page === false) {
-      return '/json/album/' + album;
+      return uri + '/album/' + album;
     } else if (!!album === true && !!page === true) {
-      return '/json/album/' + album + '/page/' + page;
+      return uri + '/album/' + album + '/page/' + page;
     }
     throw "Routing error";
   };
@@ -166,30 +170,67 @@ define(function ( require ) {
   var controller = Marionette.Object.extend({
     showImages: function ( album_id, page ) {
 
-      var url = albumUri(album_id, page);
+      var url = albumUri(album_id, page, true);
       console.log(url);
 
       // Load images data
       var imagesDataLoader = new dataController({ url: url });
       imagesDataLoader.load();
 
-      // Generate and render images
+      // Generate and render images with pagination
       imagesDataLoader.on('announce', function ( response ) {
+
         console.log(response);
 
-        var itemsCollection = getModelCollection();
-        var listItems = new itemsCollection(response[0].images);
-        Gallery.ImagesList = getCollectionView("#image-template", '#images', listItems);
+        var data = response[0];
 
-//        var region = new Marionette.Region({
-//          el: "#images",
-//          template: false
-//        });
-        //region.show(new Gallery.Layout(), { });
-        //console.log(Gallery.Layout.hasView);
-        //if (!Gallery.Layout.hasView)
+        var itemsCollection = getModelCollection();
+        Gallery.ImagesList = getCollectionView("#image-template", '#images', new itemsCollection(data.images));
         Gallery.ImagesList.render();
+
+        /*
+         * Very simple pagination since we can only have 2 pages
+         */
+        var navLinks = {
+          prev: albumUri(data.album, data.currentPage - 1),
+          next: albumUri(data.album, data.currentPage + 1)
+        };
+
+
+        if (data.currentPage == data.pagesTotal) {
+          navLinks.next = null;
+        }
+        if (data.currentPage == 1) {
+          navLinks.prev = null;
+        }
+
+        //console.log(navLinks);
+
+        var modelData = [ {
+            currentPage: data.currentPage,
+            imagesTotal: data.imagesTotal,
+            itemsPerPage: data.itemsPerPage,
+            pagesTotal: data.pagesTotal,
+            nav: {
+              prev: {
+                url: navLinks.prev,
+                disabled: (!!navLinks.prev === false) ? true : false
+              },
+              next: {
+                url: navLinks.next,
+                disabled: (!!navLinks.next === false) ? true : false
+              }
+            }
+          } ];
+
+        var itemsCollection = getModelCollection();
+        Gallery.PaginationRegion = getCollectionView("#pagination-template", '#pagination', new itemsCollection(modelData));
+        Gallery.PaginationRegion.render();
+
       });
+
+
+
     },
   });
 
@@ -209,7 +250,6 @@ define(function ( require ) {
     console.log("Application started");
     new Gallery.Layout();
     new Gallery.PanelTitle().render();
-    //debugger;
   });
 
 
