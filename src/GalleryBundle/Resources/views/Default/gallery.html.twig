@@ -3,20 +3,38 @@
 
 {% block body %}
     <div class="container">
+
+        <header class="row">
+            <h3 id="pageHeading" class="col-sm-12">Demo gallery.</h3>
+        </header>
+
         <div class="row">
-            <div class=" col-sm-2 btn-group-vertical" role="group" aria-label="...">
-                {% for album in albums %}
-                    <a type="button" class="btn btn-default" id="album_{{ album.id }}" href="#{{ album.id }}">{{ album.title }}</a>
-                {% endfor %}
-            </div>
+            <div id="albums" class="col-sm-2 btn-group-vertical" role="group"></div>
             <div class="panel panel-default col-sm-10">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
+                <div class="panel-heading" id="panelHeading">
+                    <h3 class="panel-title"></h3>
                 </div>
-                <div class="panel-body">
-                    Panel content
-                </div>
+                <div class="panel-body" id="imagesContainer"></div>
             </div>
         </div>
+
+        <footer class="row"></footer> 
+
     </div>
-{% endblock %}   
+{% endblock %} 
+
+
+{% block marionette_templates %}
+    <script type="text/template" id="item-template">
+        <a type="button" class="btn btn-default" href="#/album/<%= id %>"><%= title %></a>
+    </script>
+    <script type="text/template" id="image-template">
+        <div class="image">
+            <img src="">
+        </div>
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script data-main="js/shim" src="bower_components/requirejs/require.js"></script>    
+{% endblock %}

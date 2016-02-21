@@ -1,11 +1,25 @@
 albums_index:
     path:     /
     defaults: { _controller: GalleryBundle:Default:index }
-    
-album_page:
-    path: /album/{id}/page/{page}
-    defaults: { _controller: GalleryBundle:Default:albumPage }
 
 _json_albums_index:
     path:     /json/albums
     defaults: { _controller: GalleryBundle:Json:allAlbums }
+    methods: [GET]
+    requirements:
+        
+
+_json_album:
+    path:     /json/album/{album_id}
+    defaults: { _controller: GalleryBundle:Json:albumPage }
+    methods: [GET]
+    requirements:
+            album_id: \d+
+        
+_json_album_page:
+    path:     /json/album/{album_id}/page/{page_id}
+    defaults: { _controller: GalleryBundle:Json:albumPage }
+    methods: [GET]
+    requirements:
+        album_id: \d+
+        page_id: \d+
