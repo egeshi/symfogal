@@ -29,8 +29,8 @@
         <a type="button" class="btn btn-default" href="#/album/<%= id %>"><%= title %></a>
     </script>
     <script type="text/template" id="image-template">
-        <div class="image">
-            <img src="<%= url %>">
+        <div class="thumbnail col-sm-2">
+            <img src="<%= url %>" class="img-responsive img-thumbnail">
         </div>
     </script>
 {% endblock %}
